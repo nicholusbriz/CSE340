@@ -44,7 +44,7 @@ app.listen(port, () => {
 
 
 
-const db = require('./db');
+const db = require('./database/db');
 
 db.query('SELECT NOW()', (err, res) => {
   if (err) {
