@@ -42,6 +42,3 @@ app.listen(port, () => {
   console.log(`app listening on ${host}:${port}`)
 })
 
-
-
-const pool = require("./db"); // assuming you created db.js app.get("/db-test", async (req, res) => { try { const result = await pool.query("SELECT NOW()"); res.send(`Database time: ${result.rows[0].now}`); } catch (err) { console.error("Database error:", err); res.status(500).send("Database connection failed"); } });
