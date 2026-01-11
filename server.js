@@ -21,7 +21,7 @@ app.set("layout", "./layouts/layout") // not at views root
 /* ***********************
  * Routes
  *************************/
-app.use(static)
+app.use(express.static("public"))
 
 //Index route
 app.get("/", function(req, res) {
@@ -39,8 +39,27 @@ app.listen(port, host, () => {
   console.log(`Server running at http://${host}:${port}`);
 });
 
+//Browser auto refresh
+const livereload = require("livereload")
+const connectLiveReload = require("connect-livereload")
+
+// Create livereload server
+const liveReloadServer = livereload.createServer()
+liveReloadServer.watch(__dirname + "/public")
+
+// Inject livereload script
+app.use(connectLiveReload())
+
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/")
+  }, 100)
+})
 
 
+
+
+// add database
 const db = require('./database/db');
 
 db.query('SELECT NOW()', (err, res) => {
