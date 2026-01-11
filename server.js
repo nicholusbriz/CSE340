@@ -57,9 +57,7 @@ liveReloadServer.server.once("connection", () => {
 })
 
 
-
-
-// add database
+// See whether the database is connected
 const db = require('./database/db');
 
 db.query('SELECT NOW()', (err, res) => {

@@ -11,10 +11,10 @@ body {
   padding: 0;
   min-height: 100vh; /* ensures full height */
 
-  background-image: url("/images/site/checkerboard.jpg"); /* path relative to /public */
-  background-size: cover;       /* makes it fill the screen */
-  background-position: center;  /* centers the image */
-  background-repeat: no-repeat; /* prevents tiling */
+  background-image: url("/images/site/checkerboard.jpg"); 
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat; 
 }
 
 #wrapper {
@@ -23,7 +23,7 @@ body {
   background-color: white;
   color: black;
   padding: 2rem;
-  position: relative;  /* stays in normal flow but allows absolute children */
+  position: relative;  
   border: 2px solid blue;
   border-radius: 10px;
 }
