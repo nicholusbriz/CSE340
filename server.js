@@ -39,24 +39,6 @@ app.listen(port, host, () => {
   console.log(`Server running at http://${host}:${port}`);
 });
 
-//Browser auto refresh
-const livereload = require("livereload")
-const connectLiveReload = require("connect-livereload")
-
-// Create livereload server
-const liveReloadServer = livereload.createServer()
-liveReloadServer.watch(__dirname + "/public")
-
-// Inject livereload script
-app.use(connectLiveReload())
-
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/")
-  }, 100)
-})
-
-
 // See whether the database is connected
 const db = require('./database/db');
 
