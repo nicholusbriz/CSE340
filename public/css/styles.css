@@ -28,15 +28,13 @@ body {
   border-radius: 10px;
 }
 
-
-
 /* Header container */
 #top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  color: #ffffff;
+  color: #111; /* darker text for contrast */
   background-color: rgb(243, 247, 250);
 }
 
@@ -65,19 +63,17 @@ nav ul {
   list-style-type: none;
   justify-content: space-between;
   padding: 1rem 2rem;
-  color: white;
   background-color: black;
 }
 
-nav ul li:hover {
-  color: red;
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-nav ul li::before {
-  content: "";
-  width: 100%;
-  left: 0;
-
+nav ul li a:hover {
+  color: red;
 }
 
 .hero-image {
@@ -108,13 +104,13 @@ nav ul li::before {
 }
 
 .hero-content h2 {
-  color: blue;
+  color: #003366;
   margin: 5px;
   font-size: 1.6rem;
 }
 
-.hero-content p, img {
-  color: blue;
+.hero-content p {
+  color: #003366;
   margin: 5px;
   font-size: 1.2rem;
 }
@@ -125,7 +121,6 @@ nav ul li::before {
   gap: 10px;
   align-items: center;
 }
-
 
 .upgrade-images {
   display: grid;
@@ -242,7 +237,6 @@ nav ul li::before {
   padding: 1rem;
 }
 
-
 @media screen and (max-width: 728px) {
   #wrapper {
     margin: 0;
@@ -251,8 +245,8 @@ nav ul li::before {
   }
 
   .hero-content {
-  left: 0;
-  top: 10px;
+    left: 0;
+    top: 10px;
   }
 
   .container {
@@ -269,4 +263,3 @@ nav ul li::before {
     align-items: start;
   }
 }
-
