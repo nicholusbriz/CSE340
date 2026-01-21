@@ -172,6 +172,77 @@ nav ul li::before {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Grid container */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+#inv-display li {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+#inv-display img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.namePrice h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+.namePrice span {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Vehicle detail styles */
+.vehicle-detail {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  grid-template-columns: 1fr; /* one column by default */
+}
+
+/* Image styling */
+.vehicle-detail__media img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Content styling */
+.vehicle-detail__content h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.vehicle-detail__content p {
+  margin: 0.5rem 0;
+  line-height: 1.4;
+  font-size: 1.1rem;
+}
+
+.vehicle-detail__content p strong {
+  color: #222;
+  font-weight: 600;
+}
+
+.detail-wrapper {
+  padding: 1rem;
+}
+
+
 @media screen and (max-width: 728px) {
   #wrapper {
     margin: 0;
@@ -189,5 +260,13 @@ nav ul li::before {
   }
 
   .reviews { order: -1;}
+}
+
+/* Larger screens: switch to two columns */
+@media screen and (min-width: 729px) {
+  .vehicle-detail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
 }
 

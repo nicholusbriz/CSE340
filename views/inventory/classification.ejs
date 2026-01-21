@@ -1,0 +1,11 @@
+<!--This describes the title and the h1 heading of the page-->
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!--Display a message-->
+<%# messages() %>
+
+<%- grid %>
