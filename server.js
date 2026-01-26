@@ -5,7 +5,10 @@
 /* ***********************
  * Require Statements
  *************************/
+const session = require("express-session");
+const pool = require("./database/");
 const express = require("express");
+const bodyParser = require("body-parser");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const app = express();
@@ -14,6 +17,7 @@ const baseController = require("./controllers/baseController");
 const baseRoute = require("./routes/baseRoute");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
+const accountRoute = require("./routes/accountRoute");
 
 /* ***********************
  * View Engine and Templates
@@ -21,6 +25,33 @@ const utilities = require("./utilities/");
 app.set("view engine", "ejs");
 app.use(expressLayouts);
 app.set("layout", "./layouts/layout"); // not at views root
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  }),
+);
+
+// Express Messages Middleware
+app.use(require("connect-flash")());
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
+
+// Body Parser Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 /* ***********************
  * Routes
@@ -35,6 +66,9 @@ app.use("/", baseRoute);
 
 // Inventory routes
 app.use("/inv", inventoryRoute);
+
+//Account routes
+app.use("/account", accountRoute);
 
 //app.get("/", function(req, res) {
 //res.render("index", {title: "Home"})
@@ -76,14 +110,3 @@ const host = process.env.HOST || "0.0.0.0";
 app.listen(port, host, () => {
   console.log(`Server running at http://${host}:${port}`);
 });
-
-// See whether the database is connected
-//const db = require('./database/db');
-
-//db.query('SELECT NOW()', (err, res) => {
-//if (err) {
-//console.error('Database connection failed:', err);
-// } else {
-//console.log('Database connected at:', res.rows[0].now);
-//}
-//});

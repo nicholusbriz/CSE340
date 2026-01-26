@@ -150,6 +150,197 @@ nav ul li a:hover {
   color: #333;
 }
 
+/* Form Styling */
+form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="number"],
+textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #cc5f16;
+  box-shadow: 0 0 5px rgba(204, 95, 22, 0.3);
+}
+/* HTML5 Form Validation Styles */
+input:required:invalid,
+input:focus:invalid,
+textarea:required:invalid,
+textarea:focus:invalid {
+  border-color: #dc3545;
+}
+
+input:required:valid,
+textarea:required:valid {
+  border-color: #28a745;
+}
+
+.password-hint {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+.btn-submit,
+button[type="submit"] {
+  padding: 0.75rem 2rem;
+  background-color: #cc5f16;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover,
+button[type="submit"]:hover {
+  background-color: #a84a0f;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.register-link a {
+  color: #cc5f16;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Password Toggle Styling */
+.password-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: stretch;
+}
+
+.password-group input[type="password"],
+.password-group input[type="text"] {
+  flex: 1;
+}
+
+.toggle-password {
+  padding: 0.75rem 1rem;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-password:hover {
+  background-color: #e0e0e0;
+}
+
+/* Password Requirements */
+.password-requirements {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-left: 3px solid #cc5f16;
+  padding-left: 1rem;
+}
+
+.password-requirements ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.password-requirements li {
+  margin: 0.25rem 0;
+}
+
+/* Login Link */
+.login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.login-link a {
+  color: #cc5f16;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Flash Messages and Notices */
+.notice,
+.error {
+  list-style: none;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+}
+
+.notice {
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+.notice li {
+  margin: 0.5rem 0;
+}
+
+.error {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.error li {
+  margin: 0.5rem 0;
+}
+
 .reviews h3 {
   margin-bottom: 1rem;
   color: #444;
