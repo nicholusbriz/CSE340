@@ -41,11 +41,56 @@ async function getInventoryById(inv_id) {
   }
 }
 
-// Export all of my  functions together 
+/* ***************************
+ *  Add new classification
+ * ************************** */
+async function addClassification(classification_name) {
+  try {
+    const sql = "INSERT INTO public.classification (classification_name) VALUES ($1) RETURNING *"
+    return await pool.query(sql, [classification_name])
+  } catch (error) {
+    console.error("addClassification error " + error)
+    throw error
+  }
+}
+
+/* ***************************
+ *  Add new inventory item
+ * ************************** */
+async function addInventory(invData) {
+  try {
+    const sql = `
+      INSERT INTO public.inventory (
+        inv_make, inv_model, inv_year, inv_price, inv_miles, 
+        inv_color, inv_description, inv_image, inv_thumbnail, classification_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *
+    `
+    const values = [
+      invData.inv_make,
+      invData.inv_model,
+      invData.inv_year,
+      invData.inv_price,
+      invData.inv_miles,
+      invData.inv_color,
+      invData.inv_description,
+      invData.inv_image,
+      invData.inv_thumbnail,
+      invData.classification_id
+    ]
+    return await pool.query(sql, values)
+  } catch (error) {
+    console.error("addInventory error " + error)
+    throw error
+  }
+}
+
+// Export all of my functions together 
 module.exports = { 
     getClassifications, 
     getInventoryByClassificationId, 
-    getInventoryById
+    getInventoryById,
+    addClassification,
+    addInventory
 }
 
 

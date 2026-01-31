@@ -1,0 +1,244 @@
+<div class="form-container">
+    <h1>Add New Vehicle to Inventory</h1>
+    <%- messages() %>
+    
+    <% if (errors && errors.length > 0) { %>
+        <div class="error-container">
+            <h3>Please fix the following errors:</h3>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
+
+    <form action="/inv/add-inventory" method="post" id="inventory-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="classification_id">Classification:</label>
+                <%- classificationList %>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_make">Make:</label>
+                <input 
+                    type="text" 
+                    id="inv_make" 
+                    name="inv_make" 
+                    required
+                    maxlength="50"
+                    value="<%= typeof inv_make != 'undefined' ? inv_make : '' %>"
+                    placeholder="Enter vehicle make"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_model">Model:</label>
+                <input 
+                    type="text" 
+                    id="inv_model" 
+                    name="inv_model" 
+                    required
+                    maxlength="50"
+                    value="<%= typeof inv_model != 'undefined' ? inv_model : '' %>"
+                    placeholder="Enter vehicle model"
+                >
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_year">Year:</label>
+                <input 
+                    type="number" 
+                    id="inv_year" 
+                    name="inv_year" 
+                    required
+                    min="1900"
+                    max="<%= new Date().getFullYear() + 1 %>"
+                    value="<%= typeof inv_year != 'undefined' ? inv_year : '' %>"
+                    placeholder="Enter year"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_color">Color:</label>
+                <input 
+                    type="text" 
+                    id="inv_color" 
+                    name="inv_color" 
+                    required
+                    maxlength="30"
+                    value="<%= typeof inv_color != 'undefined' ? inv_color : '' %>"
+                    placeholder="Enter color"
+                >
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_price">Price:</label>
+                <input 
+                    type="number" 
+                    id="inv_price" 
+                    name="inv_price" 
+                    required
+                    min="0"
+                    step="0.01"
+                    value="<%= typeof inv_price != 'undefined' ? inv_price : '' %>"
+                    placeholder="Enter price"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_miles">Mileage:</label>
+                <input 
+                    type="number" 
+                    id="inv_miles" 
+                    name="inv_miles" 
+                    required
+                    min="0"
+                    value="<%= typeof inv_miles != 'undefined' ? inv_miles : '' %>"
+                    placeholder="Enter mileage"
+                >
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="inv_description">Description:</label>
+            <textarea 
+                id="inv_description" 
+                name="inv_description" 
+                required
+                rows="4"
+                placeholder="Enter vehicle description"
+            ><%= typeof inv_description != 'undefined' ? inv_description : '' %></textarea>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="inv_image">Image Path:</label>
+                <input 
+                    type="text" 
+                    id="inv_image" 
+                    name="inv_image" 
+                    required
+                    value="<%= typeof inv_image != 'undefined' ? inv_image : '/images/vehicles/no-image.png' %>"
+                    placeholder="/images/vehicles/filename.jpg"
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="inv_thumbnail">Thumbnail Path:</label>
+                <input 
+                    type="text" 
+                    id="inv_thumbnail" 
+                    name="inv_thumbnail" 
+                    required
+                    value="<%= typeof inv_thumbnail != 'undefined' ? inv_thumbnail : '/images/vehicles/no-image.png' %>"
+                    placeholder="/images/vehicles/thumbnail-filename.jpg"
+                >
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Vehicle</button>
+            <a href="/inv/" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.getElementById('inventory-form').addEventListener('submit', function(e) {
+    const form = e.target;
+    let isValid = true;
+    let errorMessage = '';
+    
+    // Classification validation
+    const classificationId = form.classification_id.value;
+    if (!classificationId) {
+        isValid = false;
+        errorMessage += 'Please select a classification.\n';
+    }
+    
+    // Make validation
+    const make = form.inv_make.value.trim();
+    if (!make) {
+        isValid = false;
+        errorMessage += 'Make is required.\n';
+    } else if (make.length > 50) {
+        isValid = false;
+        errorMessage += 'Make must be less than 50 characters.\n';
+    }
+    
+    // Model validation
+    const model = form.inv_model.value.trim();
+    if (!model) {
+        isValid = false;
+        errorMessage += 'Model is required.\n';
+    } else if (model.length > 50) {
+        isValid = false;
+        errorMessage += 'Model must be less than 50 characters.\n';
+    }
+    
+    // Year validation
+    const year = parseInt(form.inv_year.value);
+    const currentYear = new Date().getFullYear();
+    if (!year || year < 1900 || year > currentYear + 1) {
+        isValid = false;
+        errorMessage += 'Please provide a valid year between 1900 and ' + (currentYear + 1) + '.\n';
+    }
+    
+    // Price validation
+    const price = parseFloat(form.inv_price.value);
+    if (!price || price < 0) {
+        isValid = false;
+        errorMessage += 'Price must be a positive number.\n';
+    }
+    
+    // Mileage validation
+    const miles = parseInt(form.inv_miles.value);
+    if (!miles || miles < 0) {
+        isValid = false;
+        errorMessage += 'Mileage must be a positive number.\n';
+    }
+    
+    // Color validation
+    const color = form.inv_color.value.trim();
+    if (!color) {
+        isValid = false;
+        errorMessage += 'Color is required.\n';
+    } else if (color.length > 30) {
+        isValid = false;
+        errorMessage += 'Color must be less than 30 characters.\n';
+    }
+    
+    // Description validation
+    const description = form.inv_description.value.trim();
+    if (!description) {
+        isValid = false;
+        errorMessage += 'Description is required.\n';
+    }
+    
+    // Image paths validation
+    const imagePath = form.inv_image.value.trim();
+    const thumbnailPath = form.inv_thumbnail.value.trim();
+    if (!imagePath) {
+        isValid = false;
+        errorMessage += 'Image path is required.\n';
+    }
+    if (!thumbnailPath) {
+        isValid = false;
+        errorMessage += 'Thumbnail path is required.\n';
+    }
+    
+    if (!isValid) {
+        e.preventDefault();
+        alert('Please fix the following errors:\n' + errorMessage);
+        return false;
+    }
+});
+</script>

@@ -1,0 +1,29 @@
+<div class="management-container">
+    <h1>Inventory Management</h1>
+    <%- messages() %>
+    
+    <% if (errors && errors.length > 0) { %>
+        <div class="error-container">
+            <h3>Errors:</h3>
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }) %>
+            </ul>
+        </div>
+    <% } %>
+
+    <div class="management-links">
+        <div class="link-card">
+            <h2>Add New Classification</h2>
+            <p>Create a new vehicle classification category to organize your inventory.</p>
+            <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
+        </div>
+        
+        <div class="link-card">
+            <h2>Add New Vehicle to Inventory</h2>
+            <p>Add a new vehicle to your existing inventory with detailed information.</p>
+            <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
+        </div>
+    </div>
+</div>

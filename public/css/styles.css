@@ -9,21 +9,22 @@ body {
   font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  min-height: 100vh; /* ensures full height */
+  min-height: 100vh;
+  /* ensures full height */
 
-  background-image: url("/images/site/checkerboard.jpg"); 
-  background-size: cover;       
-  background-position: center;  
-  background-repeat: no-repeat; 
+  background-image: url("/images/site/checkerboard.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #wrapper {
-  max-width: 1200px;   
-  margin: 2rem auto;      
+  max-width: 1200px;
+  margin: 2rem auto;
   background-color: white;
   color: black;
   padding: 2rem;
-  position: relative;  
+  position: relative;
   border: 2px solid blue;
   border-radius: 10px;
 }
@@ -34,7 +35,8 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  color: #111; /* darker text for contrast */
+  color: #111;
+  /* darker text for contrast */
   background-color: rgb(243, 247, 250);
 }
 
@@ -141,7 +143,7 @@ nav ul li a:hover {
   max-width: 150px;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .one figcaption {
@@ -158,7 +160,7 @@ form {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .form-group {
@@ -196,6 +198,7 @@ textarea:focus {
   border-color: #cc5f16;
   box-shadow: 0 0 5px rgba(204, 95, 22, 0.3);
 }
+
 /* HTML5 Form Validation Styles */
 input:required:invalid,
 input:focus:invalid,
@@ -216,6 +219,7 @@ textarea:required:valid {
   margin-bottom: 0.5rem;
   font-style: italic;
 }
+
 .btn-submit,
 button[type="submit"] {
   padding: 0.75rem 2rem;
@@ -355,7 +359,7 @@ button[type="submit"]:hover {
   background-color: #f0f0f0;
   padding: 10px;
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Grid container */
@@ -386,6 +390,7 @@ button[type="submit"]:hover {
   font-size: 1rem;
   margin: 0.5rem 0;
 }
+
 .namePrice span {
   font-weight: bold;
   color: #333;
@@ -396,7 +401,8 @@ button[type="submit"]:hover {
   display: grid;
   gap: 1.5rem;
   margin: 2rem 0;
-  grid-template-columns: 1fr; /* one column by default */
+  grid-template-columns: 1fr;
+  /* one column by default */
 }
 
 /* Image styling */
@@ -444,7 +450,98 @@ button[type="submit"]:hover {
     grid-template-columns: 1fr;
   }
 
-  .reviews { order: -1;}
+  .reviews {
+    order: -1;
+  }
+}
+
+/* Classification View Styles */
+.classification-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.classification-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.inventory-grid {
+  margin-top: 2rem;
+}
+
+/* Enhanced Vehicle Card Styles */
+.vehicle-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.vehicle-details .year {
+  font-weight: 600;
+  color: #333;
+}
+
+.vehicle-details .color {
+  text-transform: capitalize;
+}
+
+.vehicle-details .miles {
+  font-size: 0.85rem;
+}
+
+.namePrice .price {
+  display: block;
+  font-weight: bold;
+  color: #cc5f16;
+  font-size: 1.1rem;
+  margin-top: 0.5rem;
+}
+
+/* Enhanced Grid Items */
+#inv-display li {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#inv-display li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#inv-display img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.namePrice h2 {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.namePrice h2 a {
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.namePrice h2 a:hover {
+  color: #cc5f16;
 }
 
 /* Larger screens: switch to two columns */
@@ -452,5 +549,224 @@ button[type="submit"]:hover {
   .vehicle-detail {
     grid-template-columns: 1fr 1fr;
     align-items: start;
+  }
+}
+
+/* Inventory Management Styles */
+.management-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.management-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.management-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.link-card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.link-card h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.link-card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Enhanced Form Styles */
+.form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-size: 1rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #cc5f16;
+  box-shadow: 0 0 5px rgba(204, 95, 22, 0.3);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-group small {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #cc5f16;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #a84a0f;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-1px);
+}
+
+/* Error Container Styles */
+.error-container {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.error-container h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #721c24;
+}
+
+.error-container ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.error-container li {
+  margin: 0.25rem 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .management-links {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+  .form-container,
+  .management-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .form-container h1,
+  .management-container h1 {
+    font-size: 1.5rem;
   }
 }

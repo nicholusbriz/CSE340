@@ -1,11 +1,8 @@
-<!--This describes the title and the h1 heading of the page-->
-<% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-  res.redirect('/')
-} %>
-
-<!--Display a message-->
-<%# messages() %>
-
-<%- grid %>
+<div class="classification-container">
+    <h1><%= title %></h1>
+    <%- messages() %>
+    
+    <div class="inventory-grid">
+        <%- grid %>
+    </div>
+</div>
