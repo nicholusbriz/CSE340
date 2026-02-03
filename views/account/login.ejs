@@ -1,28 +1,92 @@
-<h1><%= title %></h1>
+<h1>
+  <%= title %>
+</h1>
 
 <%- messages() %>
 
-<% if (errors) { %>
-  <ul class="notice">
-    <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
-<% } %>
+  <% if (typeof errors !=='undefined' && errors && errors.length> 0) { %>
+    <ul class="notice">
+      <% errors.array().forEach(error=> { %>
+        <li>
+          <%= error.msg %>
+        </li>
+        <% }) %>
+    </ul>
+    <% } %>
 
-<form method="post" action="/account/login" class="login-form">
-  <div class="form-group">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required placeholder="Enter your email" value="<%= locals.email %>">
-  </div>
+      <form method="post" action="/account/login" class="login-form">
+        <div class="form-group">
+          <label for="account_email">Email Address</label>
+          <input type="email" id="account_email" name="account_email" required placeholder="Enter your email"
+            value="<%= locals.account_email %>">
+        </div>
 
-  <div class="form-group">
-    <label for="password">Password</label>
-    <span class="password-hint">Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</span>
-    <input type="password" id="password" name="password" required pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" placeholder="Enter your password">
-  </div>
+        <div class="form-group">
+          <label for="account_password">Password</label>
+          <span class="password-hint">Passwords must be at least 12 characters and contain at least 1 number, 1 capital
+            letter and 1 special character</span>
+          <div class="password-input-container">
+            <input type="password" id="account_password" name="account_password" required
+              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+              placeholder="Enter your password">
+            <button type="button" class="password-toggle" onclick="togglePassword('account_password')">
+              <span id="account_password-toggle-text">Show</span>
+            </button>
+          </div>
+        </div>
 
-  <button type="submit" class="btn-submit">Sign In</button>
-</form>
+        <button type="submit" class="btn-submit">Sign In</button>
+      </form>
 
-<p class="register-link">New here? <a href="/account/register">Create an account</a></p>
+      <p class="register-link">New here? <a href="/account/register">Create an account</a></p>
+
+      <script>
+        function togglePassword(inputId) {
+          const passwordInput = document.getElementById(inputId);
+          const toggleText = document.getElementById(inputId + '-toggle-text');
+
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleText.textContent = 'Hide';
+          } else {
+            passwordInput.type = 'password';
+            toggleText.textContent = 'Show';
+          }
+        }
+      </script>
+
+      <style>
+        .password-input-container {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+
+        .password-input-container input {
+          width: 100%;
+          padding-right: 60px;
+        }
+
+        .password-toggle {
+          position: absolute;
+          right: 10px;
+          background: none;
+          border: none;
+          color: #666;
+          cursor: pointer;
+          font-size: 12px;
+          padding: 5px;
+          border-radius: 3px;
+          transition: background-color 0.3s;
+        }
+
+        .password-toggle:hover {
+          background-color: #f0f0f0;
+          color: #333;
+        }
+
+        .password-toggle:focus {
+          outline: 2px solid #007bff;
+          outline-offset: 2px;
+        }
+      </style>

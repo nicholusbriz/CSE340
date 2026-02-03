@@ -18,6 +18,7 @@ const baseRoute = require("./routes/baseRoute");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
 const accountRoute = require("./routes/accountRoute");
+const cookieParser = require("cookie-parser");
 
 /* ***********************
  * View Engine and Templates
@@ -42,6 +43,8 @@ app.use(
   }),
 );
 
+//Cookie Handler
+app.use(cookieParser());
 // Express Messages Middleware
 app.use(require("connect-flash")());
 app.use(function (req, res, next) {
@@ -52,6 +55,9 @@ app.use(function (req, res, next) {
 // Body Parser Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// JWT Token Middleware
+app.use(utilities.checkJWTToken);
 
 /* ***********************
  * Routes

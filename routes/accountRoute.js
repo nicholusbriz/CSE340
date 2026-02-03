@@ -3,9 +3,14 @@ const router = new express.Router();
 const utilities = require("../utilities");
 const accountController = require("../controllers/accountController");
 const regValidate = require("../utilities/account-validation");
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 //Define Get route for "my Account" Link
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
+
+//Default route for account management
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement));
 
 //Define Get route for "Register account" Link
 router.get(
@@ -21,15 +26,14 @@ router.post(
   utilities.handleErrors(accountController.registerAccount),
 );
 
-// Process the login attempt
+
+//process the login request
 router.post(
   "/login",
   regValidate.loginRules(),
   regValidate.checkLoginData,
-  (req, res) => {
-    res.status(200).send("login process");
-  },
-);
+  utilities.handleErrors(accountController.accountLogin)
+)
 
 //Export router
 module.exports = router;
