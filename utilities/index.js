@@ -1,6 +1,7 @@
 const invModel = require("../models/inventory-model")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const { body, validationResult } = require("express-validator")
 const Util = {}
 
 /* ************************
@@ -149,13 +150,135 @@ Util.checkJWTToken = (req, res, next) => {
 /* ****************************************
  *  Check Login
  * ************************************ */
- Util.checkLogin = (req, res, next) => {
+Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
     req.flash("notice", "Please log in.")
     return res.redirect("/account/login")
   }
- }
+}
+
+/* ****************************************
+ *  Check Inventory Access (Employee or Admin only)
+ * ************************************ */
+Util.checkInventoryAccess = (req, res, next) => {
+  if (res.locals.loggedin && (res.locals.accountData.account_type === 'Employee' || res.locals.accountData.account_type === 'Admin')) {
+    next()
+  } else if (!res.locals.loggedin) {
+    req.flash("notice", "Please log in to access inventory management.")
+    return res.redirect("/account/login")
+  } else {
+    req.flash("notice", "Access denied. Employee or Admin privileges required.")
+    return res.redirect("/account/login")
+  }
+}
+
+/* ****************************************
+ *  Inventory Validation Rules
+ * ************************************ */
+Util.newInventoryRules = () => {
+  return [
+    body("classification_id")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Please select a classification."),
+    
+    body("inv_make")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a vehicle make."),
+    
+    body("inv_model")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a vehicle model."),
+    
+    body("inv_description")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 10 })
+      .withMessage("Please provide a description of at least 10 characters."),
+    
+    body("inv_image")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Please provide an image path."),
+    
+    body("inv_thumbnail")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Please provide a thumbnail path."),
+    
+    body("inv_price")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isFloat({ min: 0 })
+      .withMessage("Please provide a valid price."),
+    
+    body("inv_year")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isInt({ min: 1900, max: new Date().getFullYear() + 1 })
+      .withMessage("Please provide a valid year."),
+    
+    body("inv_miles")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isInt({ min: 0 })
+      .withMessage("Please provide valid mileage."),
+    
+    body("inv_color")
+      .trim()
+      .escape()
+      .notEmpty()
+      .isLength({ min: 1 })
+      .withMessage("Please provide a vehicle color.")
+  ]
+}
+
+/* ****************************************
+ *  Check Update Data
+ * ************************************ */
+Util.checkUpdateData = async (req, res, next) => {
+  const { inv_id, classification_id, inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await Util.getNav()
+    const classificationSelect = await Util.buildClassificationList(classification_id)
+    const itemName = `${inv_make} ${inv_model}`
+    res.render("inventory/edit-inventory", {
+      title: "Edit " + itemName,
+      nav,
+      classificationSelect,
+      errors: errors.array(),
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_miles,
+      inv_color,
+      classification_id
+    })
+    return
+  }
+  next()
+}
 
 module.exports = Util

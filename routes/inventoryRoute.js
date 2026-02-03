@@ -4,6 +4,10 @@ const invController = require("../controllers/invController");
 const utilities = require("../utilities");
 const { body, validationResult } = require("express-validator");
 
+// Import validation rules
+const { newInventoryRules, checkUpdateData } = require("../utilities/");
+const { checkInventoryAccess } = require("../utilities/");
+
 // Route to build inventory by classification view
 router.get(
   "/type/:classificationId",
@@ -16,21 +20,44 @@ router.get(
   utilities.handleErrors(invController.buildByInvId),
 );
 
-// Management view route
+// Management view route (PROTECTED)
 router.get(
   "/",
+  checkInventoryAccess,
   utilities.handleErrors(invController.buildManagement),
 );
 
-// Add Classification view route
+// Get inventory by classification_id as JSON
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON));
+
+// Build edit inventory view (PROTECTED)
+router.get("/edit/:inv_id", checkInventoryAccess, utilities.handleErrors(invController.editInventoryView));
+
+// Process inventory update (PROTECTED)
+router.post("/update", 
+  checkInventoryAccess,
+  newInventoryRules(),
+  checkUpdateData,
+  utilities.handleErrors(invController.updateInventory)
+);
+
+// Build delete confirmation view (PROTECTED)
+router.get("/delete/:inv_id", checkInventoryAccess, utilities.handleErrors(invController.buildDeleteView));
+
+// Process inventory deletion (PROTECTED)
+router.post("/delete", checkInventoryAccess, utilities.handleErrors(invController.deleteInventory));
+
+// Add Classification view route (PROTECTED)
 router.get(
   "/add-classification",
+  checkInventoryAccess,
   utilities.handleErrors(invController.buildAddClassification),
 );
 
-// Process Add Classification
+// Process Add Classification (PROTECTED)
 router.post(
   "/add-classification",
+  checkInventoryAccess,
   [
     body("classification_name")
       .trim()
@@ -42,15 +69,17 @@ router.post(
   utilities.handleErrors(invController.addClassification),
 );
 
-// Add Inventory view route
+// Add Inventory view route (PROTECTED)
 router.get(
   "/add-inventory",
+  checkInventoryAccess,
   utilities.handleErrors(invController.buildAddInventory),
 );
 
-// Process Add Inventory
+// Process Add Inventory (PROTECTED)
 router.post(
   "/add-inventory",
+  checkInventoryAccess,
   [
     body("classification_id")
       .notEmpty()

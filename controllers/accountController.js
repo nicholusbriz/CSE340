@@ -1,7 +1,8 @@
-const utilities = require("../utilities/");
+const utilities = require("../utilities");
 const accountModel = require("../models/account-model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 require("dotenv").config();
 
 /* ****************************************
@@ -138,10 +139,188 @@ async function buildManagement(req, res, next) {
   });
 }
 
+/* ****************************************
+ *  Deliver update account view
+ * *************************************** */
+async function buildUpdateAccount(req, res, next) {
+  let nav = await utilities.getNav();
+  const account_id = req.params.account_id;
+  
+  // Get account data by ID
+  const accountData = await accountModel.getAccountById(account_id);
+  
+  if (!accountData) {
+    req.flash("notice", "Account not found.");
+    return res.redirect("/account/");
+  }
+  
+  // Verify the logged-in user can only update their own account
+  if (res.locals.accountData.account_id != account_id) {
+    req.flash("notice", "You can only update your own account.");
+    return res.redirect("/account/");
+  }
+  
+  res.render("account/update-account", {
+    title: "Update Account Information",
+    nav,
+    errors: null,
+    account_id: accountData.account_id,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+  });
+}
+
+/* ****************************************
+ *  Process account update
+ * *************************************** */
+async function updateAccount(req, res, next) {
+  let nav = await utilities.getNav();
+  const { account_id, account_firstname, account_lastname, account_email } = req.body;
+  
+  // Handle validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: errors.array(),
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
+    });
+  }
+  
+  // Verify the logged-in user can only update their own account
+  if (res.locals.accountData.account_id != account_id) {
+    req.flash("notice", "You can only update your own account.");
+    return res.redirect("/account/");
+  }
+  
+  // Check if email is already used by another account
+  const existingAccount = await accountModel.getAccountByEmail(account_email);
+  if (existingAccount && existingAccount.account_id != account_id) {
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: [{ msg: "Email address is already in use by another account." }],
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
+    });
+  }
+  
+  // Update account
+  const updateResult = await accountModel.updateAccount(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  );
+  
+  if (updateResult) {
+    req.flash("notice", "Account information updated successfully!");
+    
+    // Query updated account data from database
+    const updatedAccountData = await accountModel.getAccountById(account_id);
+    delete updatedAccountData.account_password;
+    
+    // Update JWT token with new account data
+    const accessToken = jwt.sign(updatedAccountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
+    res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
+    
+    // Deliver management view with updated information
+    return res.redirect("/account/");
+  } else {
+    req.flash("notice", "Sorry, the update failed.");
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: [{ msg: "Sorry, the update failed." }],
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email,
+    });
+  }
+}
+
+/* ****************************************
+ *  Process password update
+ * *************************************** */
+async function updatePassword(req, res, next) {
+  let nav = await utilities.getNav();
+  const { account_id, account_password } = req.body;
+  
+  // Handle validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: errors.array(),
+      account_id,
+      account_firstname: res.locals.accountData?.account_firstname || '',
+      account_lastname: res.locals.accountData?.account_lastname || '',
+      account_email: res.locals.accountData?.account_email || '',
+    });
+  }
+  
+  // Get current account data for fallback
+  const currentAccount = await accountModel.getAccountById(account_id);
+  
+  // Verify the logged-in user can only update their own account
+  if (res.locals.accountData && res.locals.accountData.account_id != account_id) {
+    req.flash("notice", "You can only update your own account.");
+    return res.redirect("/account/");
+  }
+  
+  // Hash the new password
+  try {
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    
+    // Update password in database
+    const updateResult = await accountModel.updatePassword(account_id, hashedPassword);
+    
+    if (updateResult) {
+      req.flash("notice", "Password updated successfully!");
+      return res.redirect("/account/");
+    } else {
+      req.flash("notice", "Sorry, the password update failed.");
+      return res.render("account/update-account", {
+        title: "Update Account Information",
+        nav,
+        errors: [{ msg: "Sorry, the password update failed." }],
+        account_id,
+        account_firstname: currentAccount?.account_firstname || '',
+        account_lastname: currentAccount?.account_lastname || '',
+        account_email: currentAccount?.account_email || '',
+      });
+    }
+  } catch (error) {
+    console.error("Password update error:", error);
+    req.flash("notice", "Error updating password.");
+    return res.render("account/update-account", {
+      title: "Update Account Information",
+      nav,
+      errors: [{ msg: "Error updating password: " + error.message }],
+      account_id,
+      account_firstname: currentAccount?.account_firstname || '',
+      account_lastname: currentAccount?.account_lastname || '',
+      account_email: currentAccount?.account_email || '',
+    });
+  }
+}
+
 module.exports = {
   buildLogin,
   buildRegister,
   registerAccount,
   accountLogin,
   buildManagement,
+  buildUpdateAccount,
+  updateAccount,
+  updatePassword,
 };

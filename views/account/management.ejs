@@ -1,30 +1,47 @@
 <div class="account-management">
     <h1>Account Management</h1>
-    
+
     <%- messages() %>
-    
-    <% if (locals.loggedin && locals.loggedin === 1) { %>
-        <div class="welcome-message">
-            <h2>Welcome, <%= accountData.account_firstname %> <%= accountData.account_lastname %>!</h2>
-            <p>You're logged in.</p>
-            
-            <div class="account-info">
-                <h3>Account Information</h3>
-                <ul>
-                    <li><strong>Name:</strong> <%= accountData.account_firstname %> <%= accountData.account_lastname %></li>
-                    <li><strong>Email:</strong> <%= accountData.account_email %></li>
-                    <li><strong>Account Type:</strong> <%= accountData.account_type %></li>
-                </ul>
+
+        <% if (locals.loggedin && locals.loggedin===1) { %>
+            <div class="welcome-message">
+                <h2>Welcome, <%= accountData.account_firstname %>!</h2>
+
+                <% if (accountData.account_type==='Employee' || accountData.account_type==='Admin' ) { %>
+                    <h3>Inventory Management</h3>
+                    <p><a href="/inv/" class="btn btn-primary">Access Inventory Management</a></p>
+                    <% } %>
+
+                        <div class="account-actions">
+                            <a href="/account/update/<%= accountData.account_id %>" class="btn btn-secondary">Update
+                                Account Information</a>
+                        </div>
+
+                        <div class="account-info">
+                            <h3>Account Information</h3>
+                            <ul>
+                                <li><strong>Name:</strong>
+                                    <%= accountData.account_firstname %>
+                                        <%= accountData.account_lastname %>
+                                </li>
+                                <li><strong>Email:</strong>
+                                    <%= accountData.account_email %>
+                                </li>
+                                <li><strong>Account Type:</strong>
+                                    <%= accountData.account_type %>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="logout-action">
+                            <a href="/account/logout" class="btn btn-primary">Logout</a>
+                        </div>
             </div>
-            
-            <div class="account-actions">
-                <a href="/account/logout" class="btn btn-primary">Logout</a>
-            </div>
-        </div>
-    <% } else { %>
-        <div class="not-logged-in">
-            <p>You are not logged in.</p>
-            <p><a href="/account/login" class="btn btn-primary">Login</a> | <a href="/account/register" class="btn btn-secondary">Register</a></p>
-        </div>
-    <% } %>
+            <% } else { %>
+                <div class="not-logged-in">
+                    <p>You are not logged in.</p>
+                    <p><a href="/account/login" class="btn btn-primary">Login</a> | <a href="/account/register"
+                            class="btn btn-secondary">Register</a></p>
+                </div>
+                <% } %>
 </div>

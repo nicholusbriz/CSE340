@@ -1,29 +1,55 @@
 <div class="management-container">
     <h1>Inventory Management</h1>
     <%- messages() %>
-    
-    <% if (errors && errors.length > 0) { %>
-        <div class="error-container">
-            <h3>Errors:</h3>
-            <ul>
-                <% errors.forEach(error => { %>
-                    <li><%= error.msg %></li>
-                <% }) %>
-            </ul>
-        </div>
-    <% } %>
 
-    <div class="management-links">
-        <div class="link-card">
-            <h2>Add New Classification</h2>
-            <p>Create a new vehicle classification category to organize your inventory.</p>
-            <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
-        </div>
-        
-        <div class="link-card">
-            <h2>Add New Vehicle to Inventory</h2>
-            <p>Add a new vehicle to your existing inventory with detailed information.</p>
-            <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
-        </div>
-    </div>
+        <% if (errors && errors.length> 0) { %>
+            <div class="error-container">
+                <h3>Errors:</h3>
+                <ul>
+                    <% errors.forEach(error=> { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+            <% } %>
+
+                <div class="management-links">
+                    <div class="link-card">
+                        <h2>Add New Classification</h2>
+                        <p>Create a new vehicle classification category to organize your inventory.</p>
+                        <a href="/inv/add-classification" class="btn btn-primary">Add Classification</a>
+                    </div>
+
+                    <div class="link-card">
+                        <h2>Add New Vehicle to Inventory</h2>
+                        <p>Add a new vehicle to your existing inventory with detailed information.</p>
+                        <a href="/inv/add-inventory" class="btn btn-primary">Add Vehicle</a>
+                    </div>
+                </div>
+
+                <hr class="section-divider">
+
+                <div class="inventory-selection">
+                    <h2>Manage Inventory</h2>
+                    <p>Select a classification from the list to see the items belonging to the classification.</p>
+
+                    <div class="classification-selector">
+                        <label for="classification_id">Choose a Classification:</label>
+                        <%- classificationSelect %>
+                    </div>
+
+                    <table id="inventoryDisplay" class="inventory-table">
+                        <!-- Inventory items will be injected here by JavaScript -->
+                    </table>
+
+                    <noscript>
+                        <div class="noscript-warning">
+                            JavaScript must be enabled to use this page.
+                        </div>
+                    </noscript>
+                </div>
 </div>
+
+<script src="../../js/inventory.js"></script>
