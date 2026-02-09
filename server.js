@@ -18,6 +18,7 @@ const baseRoute = require("./routes/baseRoute");
 const inventoryRoute = require("./routes/inventoryRoute");
 const utilities = require("./utilities/");
 const accountRoute = require("./routes/accountRoute");
+const commentRoute = require("./routes/commentRoute");
 const cookieParser = require("cookie-parser");
 
 /* ***********************
@@ -75,6 +76,9 @@ app.use("/inv", inventoryRoute);
 
 //Account routes
 app.use("/account", accountRoute);
+
+// Comment routes
+app.use("/comments", commentRoute);
 
 //app.get("/", function(req, res) {
 //res.render("index", {title: "Home"})

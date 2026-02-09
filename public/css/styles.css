@@ -29,7 +29,66 @@ body {
   border-radius: 10px;
 }
 
-/* Header container */
+/* Delete button styling */
+.btn-delete-comment {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete-comment:hover {
+  background-color: #c82333;
+}
+
+.btn-delete-comment:active {
+  background-color: #bd2130;
+}
+
+/* Comment item styling */
+.comment-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-author {
+  color: #333;
+  font-weight: bold;
+}
+
+.comment-date {
+  color: #666;
+  font-size: 14px;
+}
+
+.comment-content {
+  color: #444;
+  line-height: 1.5;
+}
+
+.comments-section {
+  margin-top: 30px;
+}
+
+.comments-list {
+  margin-top: 20px;
+}
+
 #top-header {
   display: flex;
   justify-content: space-between;
@@ -757,7 +816,112 @@ textarea:required:valid {
   }
 }
 
-/* ********* Inventory Management Styles ********* */
+/* ********* Comment System Styles ********* */
+
+.comments-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.comments-section h3 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.comment-item {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.comment-header strong {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.comment-header small {
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.comment-content {
+  color: #495057;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.no-comments {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.login-required {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  color: #856404;
+}
+
+.login-required a {
+  color: #cc5f16;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.login-required a:hover {
+  text-decoration: underline;
+}
+
+/* Flash Messages */
+.notice {
+  padding: 1rem;
+  border-radius: 4px;
+  margin: 1rem 0;
+  font-weight: 500;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+}
+
+/* Responsive Comment Styles */
+@media screen and (max-width: 768px) {
+  .comments-section {
+    margin: 1rem 0;
+    padding: 1rem;
+  }
+
+  .comment-item {
+    padding: 1rem;
+  }
+
+  .comment-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
 .inventory-selection {
   margin-top: 2rem;
   padding: 1.5rem;

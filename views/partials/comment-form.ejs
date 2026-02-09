@@ -1,0 +1,30 @@
+<!-- Comment Form Component -->
+<div class="comment-form-container">
+  <h3>Add a Comment</h3>
+  <% if (typeof accountData !== 'undefined' && accountData) { %>
+    <!-- Comment Form -->
+    <form id="comment-form" class="comment-form">
+      <div class="form-group">
+        <label for="comment_text">Your Comment:</label>
+        <textarea
+          id="comment_text"
+          name="comment_text"
+          rows="3"
+          maxlength="1000"
+          placeholder="Share your thoughts about this vehicle..."
+          required
+        ></textarea>
+        <small id="char-count" class="char-count">0 / 1000 characters</small>
+      </div>
+      <button type="submit" class="btn btn-primary" id="submit-comment">
+        <span id="submit-text">Post Comment</span>
+        <span id="submit-loading" style="display: none;">Posting...</span>
+      </button>
+    </form>
+  <% } else { %>
+    <!-- Login Required Message -->
+    <div class="login-required">
+      <p><a href="/account/login">Login</a> to add a comment.</p>
+    </div>
+  <% } %>
+</div>
