@@ -209,12 +209,17 @@
           transform: translateY(-50%);
           background: none;
           border: none;
-          color: #007bff;
+          color: #0066cc;
           cursor: pointer;
           font-size: 0.9rem;
+          font-weight: 600;
+          padding: 0.25rem 0.5rem;
+          border-radius: 3px;
+          text-decoration: none;
         }
 
         .toggle-password:hover {
+          background-color: #f0f8ff;
           text-decoration: underline;
         }
 
@@ -226,30 +231,38 @@
 
         .btn {
           padding: 0.75rem 1.5rem;
-          border: none;
+          border: 2px solid;
           border-radius: 4px;
           text-decoration: none;
           cursor: pointer;
           font-size: 1rem;
+          font-weight: 600;
           display: inline-block;
+          transition: all 0.3s ease;
         }
 
-        .btn-primary {
-          background-color: #007bff;
-          color: white;
+        .form-section .btn-primary {
+          background-color: #0052a3;
+          color: #ffffff;
+          border-color: #0052a3;
         }
 
-        .btn-primary:hover {
-          background-color: #0056b3;
+        .form-section .btn-primary:hover {
+          background-color: #003d82;
+          border-color: #003d82;
+          transform: translateY(-1px);
         }
 
-        .btn-secondary {
-          background-color: #6c757d;
-          color: white;
+        .form-section .btn-secondary {
+          background-color: #343a40;
+          color: #ffffff;
+          border-color: #343a40;
         }
 
-        .btn-secondary:hover {
-          background-color: #545b62;
+        .form-section .btn-secondary:hover {
+          background-color: #23272b;
+          border-color: #23272b;
+          transform: translateY(-1px);
         }
 
         .notice {

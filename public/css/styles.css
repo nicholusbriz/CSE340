@@ -215,27 +215,9 @@ textarea:required:valid {
 .password-hint {
   display: block;
   font-size: 0.9rem;
-  color: #666;
+  color: #495057;
   margin-bottom: 0.5rem;
   font-style: italic;
-}
-
-.btn-submit,
-button[type="submit"] {
-  padding: 0.75rem 2rem;
-  background-color: #cc5f16;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.btn-submit:hover,
-button[type="submit"]:hover {
-  background-color: #a84a0f;
 }
 
 .register-link {
@@ -283,7 +265,7 @@ button[type="submit"]:hover {
 /* Password Requirements */
 .password-requirements {
   font-size: 0.9rem;
-  color: #666;
+  color: #495057;
   margin-top: 0.5rem;
   padding: 0.5rem;
   background-color: #f9f9f9;
@@ -483,7 +465,7 @@ button[type="submit"]:hover {
   gap: 0.25rem;
   margin: 0.5rem 0;
   font-size: 0.9rem;
-  color: #666;
+  color: #495057;
 }
 
 .vehicle-details .year {
@@ -597,7 +579,7 @@ button[type="submit"]:hover {
 }
 
 .link-card p {
-  color: #666;
+  color: #495057;
   margin-bottom: 1.5rem;
   line-height: 1.6;
 }
@@ -665,7 +647,7 @@ button[type="submit"]:hover {
 
 .form-group small {
   font-size: 0.9rem;
-  color: #666;
+  color: #495057;
   margin-top: 0.5rem;
   font-style: italic;
 }
@@ -679,7 +661,7 @@ button[type="submit"]:hover {
 
 .btn {
   padding: 0.75rem 2rem;
-  border: none;
+  border: 2px solid;
   border-radius: 4px;
   font-size: 1rem;
   font-weight: 600;
@@ -690,22 +672,26 @@ button[type="submit"]:hover {
 }
 
 .btn-primary {
-  background-color: #cc5f16;
-  color: white;
+  background-color: #003d82;
+  color: #ffffff;
+  border: 2px solid #003d82;
 }
 
 .btn-primary:hover {
-  background-color: #a84a0f;
+  background-color: #002d5a;
+  border-color: #002d5a;
   transform: translateY(-1px);
 }
 
 .btn-secondary {
-  background-color: #6c757d;
-  color: white;
+  background-color: #343a40;
+  color: #ffffff;
+  border: 2px solid #343a40;
 }
 
 .btn-secondary:hover {
-  background-color: #5a6268;
+  background-color: #23272b;
+  border-color: #23272b;
   transform: translateY(-1px);
 }
 
@@ -787,7 +773,7 @@ button[type="submit"]:hover {
 }
 
 .inventory-selection p {
-  color: #666;
+  color: #333;
   margin-bottom: 1rem;
   font-style: italic;
 }
@@ -919,16 +905,16 @@ button[type="submit"]:hover {
   .inventory-table {
     font-size: 0.9rem;
   }
-  
+
   .inventory-table thead th,
   .inventory-table tbody td {
     padding: 0.5rem;
   }
-  
+
   .inventory-table tbody td:not(:first-child) {
     width: 80px;
   }
-  
+
   .inventory-table tbody td a {
     padding: 0.4rem 0.6rem;
     font-size: 0.8rem;
@@ -939,24 +925,24 @@ button[type="submit"]:hover {
   .inventory-selection {
     padding: 1rem;
   }
-  
+
   .classification-selector select {
     max-width: 100%;
   }
-  
+
   .inventory-table {
     font-size: 0.8rem;
   }
-  
+
   .inventory-table thead th,
   .inventory-table tbody td {
     padding: 0.4rem 0.5rem;
   }
-  
+
   .inventory-table tbody td:not(:first-child) {
     width: 60px;
   }
-  
+
   .inventory-table tbody td a {
     padding: 0.3rem 0.5rem;
     font-size: 0.75rem;

@@ -90,7 +90,7 @@ async function accountLogin(req, res) {
   let nav = await utilities.getNav();
   const { account_email, account_password } = req.body;
   const accountData = await accountModel.getAccountByEmail(account_email);
-  
+
   if (!accountData) {
     req.flash("notice", "Please check your credentials and try again.");
     res.status(400).render("account/login", {
@@ -101,13 +101,13 @@ async function accountLogin(req, res) {
     });
     return;
   }
-  
+
   try {
     if (await bcrypt.compare(account_password, accountData.account_password)) {
       delete accountData.account_password;
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
-      
-      if(process.env.NODE_ENV === 'development') {
+
+      if (process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
       } else {
         res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 });
@@ -145,21 +145,21 @@ async function buildManagement(req, res, next) {
 async function buildUpdateAccount(req, res, next) {
   let nav = await utilities.getNav();
   const account_id = req.params.account_id;
-  
+
   // Get account data by ID
   const accountData = await accountModel.getAccountById(account_id);
-  
+
   if (!accountData) {
     req.flash("notice", "Account not found.");
     return res.redirect("/account/");
   }
-  
+
   // Verify the logged-in user can only update their own account
   if (res.locals.accountData.account_id != account_id) {
     req.flash("notice", "You can only update your own account.");
     return res.redirect("/account/");
   }
-  
+
   res.render("account/update-account", {
     title: "Update Account Information",
     nav,
@@ -177,10 +177,11 @@ async function buildUpdateAccount(req, res, next) {
 async function updateAccount(req, res, next) {
   let nav = await utilities.getNav();
   const { account_id, account_firstname, account_lastname, account_email } = req.body;
-  
+
   // Handle validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    req.flash("notice", "Please correct the errors below.");
     return res.render("account/update-account", {
       title: "Update Account Information",
       nav,
@@ -191,13 +192,13 @@ async function updateAccount(req, res, next) {
       account_email,
     });
   }
-  
+
   // Verify the logged-in user can only update their own account
   if (res.locals.accountData.account_id != account_id) {
     req.flash("notice", "You can only update your own account.");
     return res.redirect("/account/");
   }
-  
+
   // Check if email is already used by another account
   const existingAccount = await accountModel.getAccountByEmail(account_email);
   if (existingAccount && existingAccount.account_id != account_id) {
@@ -211,7 +212,7 @@ async function updateAccount(req, res, next) {
       account_email,
     });
   }
-  
+
   // Update account
   const updateResult = await accountModel.updateAccount(
     account_id,
@@ -219,18 +220,18 @@ async function updateAccount(req, res, next) {
     account_lastname,
     account_email
   );
-  
+
   if (updateResult) {
     req.flash("notice", "Account information updated successfully!");
-    
+
     // Query updated account data from database
     const updatedAccountData = await accountModel.getAccountById(account_id);
     delete updatedAccountData.account_password;
-    
+
     // Update JWT token with new account data
     const accessToken = jwt.sign(updatedAccountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 });
     res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 });
-    
+
     // Deliver management view with updated information
     return res.redirect("/account/");
   } else {
@@ -253,10 +254,11 @@ async function updateAccount(req, res, next) {
 async function updatePassword(req, res, next) {
   let nav = await utilities.getNav();
   const { account_id, account_password } = req.body;
-  
+
   // Handle validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    req.flash("notice", "Please correct the password errors below.");
     return res.render("account/update-account", {
       title: "Update Account Information",
       nav,
@@ -267,23 +269,23 @@ async function updatePassword(req, res, next) {
       account_email: res.locals.accountData?.account_email || '',
     });
   }
-  
+
   // Get current account data for fallback
   const currentAccount = await accountModel.getAccountById(account_id);
-  
+
   // Verify the logged-in user can only update their own account
   if (res.locals.accountData && res.locals.accountData.account_id != account_id) {
     req.flash("notice", "You can only update your own account.");
     return res.redirect("/account/");
   }
-  
+
   // Hash the new password
   try {
     const hashedPassword = await bcrypt.hash(account_password, 10);
-    
+
     // Update password in database
     const updateResult = await accountModel.updatePassword(account_id, hashedPassword);
-    
+
     if (updateResult) {
       req.flash("notice", "Password updated successfully!");
       return res.redirect("/account/");
