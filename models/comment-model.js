@@ -72,9 +72,44 @@ async function deleteComment(comment_id) {
   }
 }
 
+/* ***************************
+ *  Update a comment
+ * ************************** */
+async function updateComment(comment_id, comment_text) {
+  try {
+    const sql = `
+      UPDATE comments 
+      SET comment_text = $1, updated_at = CURRENT_TIMESTAMP
+      WHERE comment_id = $2
+      RETURNING *
+    `
+    const data = await pool.query(sql, [comment_text, comment_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("updateComment error " + error)
+    return null
+  }
+}
+
+/* ***************************
+ *  Get comment count for a vehicle
+ * ************************** */
+async function getCommentCount(inv_id) {
+  try {
+    const sql = "SELECT COUNT(*) FROM comments WHERE inv_id = $1"
+    const data = await pool.query(sql, [inv_id])
+    return parseInt(data.rows[0].count)
+  } catch (error) {
+    console.error("getCommentCount error " + error)
+    return 0
+  }
+}
+
 module.exports = {
   getCommentsByVehicleId,
   addComment,
   getCommentById,
-  deleteComment
+  deleteComment,
+  updateComment,
+  getCommentCount
 }

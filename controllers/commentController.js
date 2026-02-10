@@ -75,6 +75,104 @@ async function deleteComment(req, res, next) {
 }
 
 /* ***************************
+ *  Update a comment
+ * ************************** */
+async function updateComment(req, res, next) {
+  try {
+    const { comment_id, comment_text } = req.body
+    const account_id = res.locals.accountData.account_id
+
+    // Validation
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        errors: errors.array()
+      })
+    }
+
+    // Check if comment text is not empty
+    if (!comment_text || comment_text.trim().length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Comment cannot be empty"
+      })
+    }
+
+    // Get comment details to verify ownership
+    const comment = await commentModel.getCommentById(comment_id)
+
+    if (!comment) {
+      return res.status(404).json({
+        success: false,
+        message: "Comment not found"
+      })
+    }
+
+    // Check if user owns the comment
+    if (comment.account_id !== account_id) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only update your own comments"
+      })
+    }
+
+    // Update comment
+    const updatedComment = await commentModel.updateComment(comment_id, comment_text.trim())
+
+    if (updatedComment) {
+      res.status(200).json({
+        success: true,
+        message: "Comment updated successfully",
+        comment: updatedComment
+      })
+    } else {
+      res.status(500).json({
+        success: false,
+        message: "Failed to update comment"
+      })
+    }
+
+  } catch (error) {
+    console.error("updateComment error:", error)
+    res.status(500).json({
+      success: false,
+      message: "Server error occurred"
+    })
+  }
+}
+
+/* ***************************
+ *  Get comment statistics
+ * ************************** */
+async function getCommentStats(req, res, next) {
+  try {
+    const { inv_id } = req.params
+
+    if (!inv_id) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing inventory ID"
+      })
+    }
+
+    const count = await commentModel.getCommentCount(inv_id)
+
+    res.status(200).json({
+      success: true,
+      count: count,
+      inv_id: inv_id
+    })
+  } catch (error) {
+    console.error("getCommentStats error:", error)
+    res.status(500).json({
+      success: false,
+      message: "Server error occurred"
+    })
+  }
+}
+
+/* ***************************
  *  Validation rules for comments
  * ************************** */
 const commentValidationRules = () => {
@@ -90,5 +188,7 @@ const commentValidationRules = () => {
 module.exports = {
   addComment,
   deleteComment,
+  updateComment,
+  getCommentStats,
   commentValidationRules
 }

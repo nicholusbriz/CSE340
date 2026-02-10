@@ -23,4 +23,22 @@ router.post("/delete/:comment_id",
   utilities.handleErrors(commentController.deleteComment)
 )
 
+/* ***************************
+ *  Update a comment
+ *  URL: PUT /comments/update/:comment_id
+ * ************************** */
+router.put("/update/:comment_id",
+  utilities.checkLogin,               // Check if user is logged in
+  commentController.commentValidationRules(),
+  utilities.handleErrors(commentController.updateComment)
+)
+
+/* ***************************
+ *  Get comment statistics
+ *  URL: GET /comments/stats/:inv_id
+ * ************************** */
+router.get("/stats/:inv_id",
+  utilities.handleErrors(commentController.getCommentStats)
+)
+
 module.exports = router
